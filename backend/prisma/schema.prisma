@@ -8,10 +8,22 @@ datasource db {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  password String
-  name     String?
-  role     String  @default("user")
-  createdAt DateTime @default(now())
+  id        Int             @id @default(autoincrement())
+  email     String          @unique
+  password  String
+  name      String?
+  role      String          @default("user")
+  createdAt DateTime        @default(now())
+
+  //Relation with LoginActivity
+  loginActivities LoginActivity[]
+}
+
+model LoginActivity {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  loginType String   // "normal" | "wallet"
+  timestamp DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
 }
